@@ -1,6 +1,6 @@
 # Modelo de datos
 
-Este documento describe el modelo de datos de LearnAI. Es independiente de la
+Este documento describe el modelo de datos de The Hard Way. Es independiente de la
 plataforma y de la base de datos: los tipos están escritos en TypeScript como
 notación y se traducen directamente a tablas relacionales (por ejemplo, SQLite).
 

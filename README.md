@@ -1,8 +1,10 @@
-# LearnAI
+# The Hard Way
 
 **Aprender en profundidad, con la IA como tutor y no como atajo.**
 
-LearnAI es una plataforma para estudiar en serio en la era de la inteligencia
+*No hay atajos. Por eso funciona.*
+
+The Hard Way (THW) es una plataforma para estudiar en serio en la era de la inteligencia
 artificial. Genera roadmaps de estudio a tu medida, enseña cada tema en
 lecciones interactivas y te pide demostrar lo que sabés antes de seguir
 avanzando.
@@ -44,7 +46,7 @@ pensado para obtener respuestas, no para construir conocimiento:
 - Una pregunta lateral desvía la lección, y la lección no vuelve.
 - Nada te ayuda a recordar lo que aprendiste la semana pasada.
 
-**LearnAI existe para resolver ese problema de formato.**
+**The Hard Way existe para resolver ese problema de formato.**
 
 ## Cómo funciona
 
@@ -91,7 +93,7 @@ te engancha, convertila en un roadmap.
   produce aprendizaje.
 - **Comprender antes que completar.** El progreso se mide en conceptos
   dominados, no en lecciones leídas.
-- **Tu conocimiento es tuyo.** LearnAI es local-first: tus datos viven en tu
+- **Tu conocimiento es tuyo.** THW es local-first: tus datos viven en tu
   máquina.
 
 ## Estado
