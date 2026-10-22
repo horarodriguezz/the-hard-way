@@ -105,3 +105,4 @@ marketplace para compartir e importar roadmaps y lecciones.
 ## Documentación
 
 - [Modelo de datos](docs/data-model.md)
+- [Stack](docs/stack.md)
