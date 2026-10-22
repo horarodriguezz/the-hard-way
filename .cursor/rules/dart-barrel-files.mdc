@@ -1,0 +1,24 @@
+---
+description: In this Dart project, barrel files are allowed and override the global no-barrel-files rule
+alwaysApply: true
+---
+
+# Barrel files in Dart
+
+This project overrides the global "no barrel files" rule. In Dart, barrel
+files are idiomatic and allowed.
+
+- A barrel is a `.dart` file that only contains `export` directives.
+- Name it after its folder (e.g. `lib/domain/domain.dart`), never `index.dart`.
+- Use barrels only at feature or layer boundaries, not for every folder.
+- Inside the same layer or feature, import the concrete file.
+- Never import a barrel from a file that the barrel itself exports.
+
+```dart
+// lib/domain/domain.dart
+export 'block.dart';
+export 'thread.dart';
+
+// lib/features/lesson/widgets/node_card.dart
+import 'package:the_hard_way/domain/domain.dart';
+```
