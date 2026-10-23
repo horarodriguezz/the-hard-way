@@ -1,3 +1,4 @@
+import 'package:the_hard_way/core/json.dart';
 import 'package:the_hard_way/domain/generation.dart';
 
 sealed class Node {
@@ -13,7 +14,7 @@ sealed class Node {
     required this.createdAt,
   });
 
-  Map<String, dynamic> toJson() {
+  Json toJson() {
     return {
       'id': id,
       'thread_id': threadId,
@@ -22,7 +23,7 @@ sealed class Node {
     };
   }
 
-  factory Node.fromJson(Map<String, dynamic> json) {
+  factory Node.fromJson(Json json) {
     final role = json['role'] as String?;
 
     return switch (role) {
@@ -42,11 +43,11 @@ final class UserNode extends Node {
   });
 
   @override
-  Map<String, dynamic> toJson() {
+  Json toJson() {
     return {'role': 'user', ...super.toJson()};
   }
 
-  factory UserNode.fromJson(Map<String, dynamic> json) {
+  factory UserNode.fromJson(Json json) {
     final id = json['id'] as String;
     final threadId = json['thread_id'] as String;
     final order = json['order'] as int;
@@ -86,7 +87,7 @@ final class AgentNode extends Node {
   });
 
   @override
-  Map<String, dynamic> toJson() {
+  Json toJson() {
     return {
       'role': 'agent',
       'generation': generation.toJson(),
@@ -94,14 +95,12 @@ final class AgentNode extends Node {
     };
   }
 
-  factory AgentNode.fromJson(Map<String, dynamic> json) {
+  factory AgentNode.fromJson(Json json) {
     final id = json['id'] as String;
     final threadId = json['thread_id'] as String;
     final order = json['order'] as int;
     final createdAt = DateTime.parse(json['created_at'] as String);
-    final generation = GenerationMetaData.fromJson(
-      json['generation'] as Map<String, dynamic>,
-    );
+    final generation = GenerationMetaData.fromJson(json['generation'] as Json);
 
     return AgentNode(
       id: id,

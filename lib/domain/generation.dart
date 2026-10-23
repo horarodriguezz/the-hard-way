@@ -1,3 +1,5 @@
+import 'package:the_hard_way/core/json.dart';
+
 final class GenerationMetaData {
   final String model;
   final String promptVersion;
@@ -11,7 +13,7 @@ final class GenerationMetaData {
     required this.tokensOut,
   });
 
-  Map<String, dynamic> toJson() {
+  Json toJson() {
     return {
       'model': model,
       'prompt_version': promptVersion,
@@ -20,7 +22,7 @@ final class GenerationMetaData {
     };
   }
 
-  factory GenerationMetaData.fromJson(Map<String, dynamic> json) {
+  factory GenerationMetaData.fromJson(Json json) {
     return GenerationMetaData(
       model: json['model'] as String,
       promptVersion: json['prompt_version'] as String,

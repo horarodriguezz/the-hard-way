@@ -1,4 +1,5 @@
 import 'package:the_hard_way/core/list_equals.dart';
+import 'package:the_hard_way/core/json.dart';
 
 /// Bloque de contenido dentro de un [Node].
 class Block {
@@ -18,7 +19,7 @@ class Block {
 
   bool get blocksProgress => data.blocksProgress;
 
-  Map<String, dynamic> toJson() => {
+  Json toJson() => {
     'id': id,
     'node_id': nodeId,
     'order': order,
@@ -26,7 +27,7 @@ class Block {
     'data': data.toJson(),
   };
 
-  factory Block.fromJson(Map<String, dynamic> json) {
+  factory Block.fromJson(Json json) {
     final conceptIds = json['concept_ids'];
     return Block(
       id: json['id'] as String,
@@ -35,7 +36,7 @@ class Block {
       conceptIds: conceptIds is List
           ? conceptIds.map((e) => e as String).toList()
           : const [],
-      data: BlockData.fromJson(json['data'] as Map<String, dynamic>),
+      data: BlockData.fromJson(json['data'] as Json),
     );
   }
 
@@ -63,9 +64,9 @@ sealed class BlockData {
     _ => false,
   };
 
-  Map<String, dynamic> toJson();
+  Json toJson();
 
-  static BlockData fromJson(Map<String, dynamic> json) {
+  static BlockData fromJson(Json json) {
     final type = json['type'] as String;
     return switch (type) {
       'explanation' => ExplanationData.fromJson(json),
@@ -86,12 +87,9 @@ final class ExplanationData extends BlockData {
   const ExplanationData({required this.markdown});
 
   @override
-  Map<String, dynamic> toJson() => {
-    'type': 'explanation',
-    'markdown': markdown,
-  };
+  Json toJson() => {'type': 'explanation', 'markdown': markdown};
 
-  factory ExplanationData.fromJson(Map<String, dynamic> json) =>
+  factory ExplanationData.fromJson(Json json) =>
       ExplanationData(markdown: json['markdown'] as String);
 
   @override
@@ -109,12 +107,9 @@ final class UserMessageData extends BlockData {
   const UserMessageData({required this.markdown});
 
   @override
-  Map<String, dynamic> toJson() => {
-    'type': 'user_message',
-    'markdown': markdown,
-  };
+  Json toJson() => {'type': 'user_message', 'markdown': markdown};
 
-  factory UserMessageData.fromJson(Map<String, dynamic> json) =>
+  factory UserMessageData.fromJson(Json json) =>
       UserMessageData(markdown: json['markdown'] as String);
 
   @override
@@ -138,14 +133,14 @@ final class CodeData extends BlockData {
   });
 
   @override
-  Map<String, dynamic> toJson() => {
+  Json toJson() => {
     'type': 'code',
     'language': language,
     'source': source,
     'runnable': runnable,
   };
 
-  factory CodeData.fromJson(Map<String, dynamic> json) => CodeData(
+  factory CodeData.fromJson(Json json) => CodeData(
     language: json['language'] as String,
     source: json['source'] as String,
     runnable: json['runnable'] as bool? ?? false,
@@ -170,9 +165,9 @@ final class DiagramData extends BlockData {
   const DiagramData({required this.source});
 
   @override
-  Map<String, dynamic> toJson() => {'type': 'diagram', 'source': source};
+  Json toJson() => {'type': 'diagram', 'source': source};
 
-  factory DiagramData.fromJson(Map<String, dynamic> json) =>
+  factory DiagramData.fromJson(Json json) =>
       DiagramData(source: json['source'] as String);
 
   @override
@@ -191,14 +186,14 @@ final class ReferenceData extends BlockData {
   const ReferenceData({required this.title, required this.url, this.excerpt});
 
   @override
-  Map<String, dynamic> toJson() => {
+  Json toJson() => {
     'type': 'reference',
     'title': title,
     'url': url,
     if (excerpt != null) 'excerpt': excerpt,
   };
 
-  factory ReferenceData.fromJson(Map<String, dynamic> json) => ReferenceData(
+  factory ReferenceData.fromJson(Json json) => ReferenceData(
     title: json['title'] as String,
     url: json['url'] as String,
     excerpt: json['excerpt'] as String?,
@@ -222,9 +217,9 @@ final class PredictionData extends BlockData {
   const PredictionData({required this.question});
 
   @override
-  Map<String, dynamic> toJson() => {'type': 'prediction', 'question': question};
+  Json toJson() => {'type': 'prediction', 'question': question};
 
-  factory PredictionData.fromJson(Map<String, dynamic> json) =>
+  factory PredictionData.fromJson(Json json) =>
       PredictionData(question: json['question'] as String);
 
   @override
@@ -242,9 +237,9 @@ final class CheckData extends BlockData {
   const CheckData({required this.question});
 
   @override
-  Map<String, dynamic> toJson() => {'type': 'check', ...question.toJson()};
+  Json toJson() => {'type': 'check', ...question.toJson()};
 
-  factory CheckData.fromJson(Map<String, dynamic> json) =>
+  factory CheckData.fromJson(Json json) =>
       CheckData(question: CheckQuestion.fromJson(json));
 
   @override
@@ -263,9 +258,9 @@ sealed class CheckQuestion {
 
   String get prompt;
 
-  Map<String, dynamic> toJson();
+  Json toJson();
 
-  static CheckQuestion fromJson(Map<String, dynamic> json) {
+  static CheckQuestion fromJson(Json json) {
     final kind = json['kind'] as String;
     return switch (kind) {
       'free_text' => FreeTextCheck.fromJson(json),
@@ -285,13 +280,9 @@ final class FreeTextCheck extends CheckQuestion {
   const FreeTextCheck({required this.prompt, required this.rubric});
 
   @override
-  Map<String, dynamic> toJson() => {
-    'kind': 'free_text',
-    'question': prompt,
-    'rubric': rubric,
-  };
+  Json toJson() => {'kind': 'free_text', 'question': prompt, 'rubric': rubric};
 
-  factory FreeTextCheck.fromJson(Map<String, dynamic> json) => FreeTextCheck(
+  factory FreeTextCheck.fromJson(Json json) => FreeTextCheck(
     prompt: json['question'] as String,
     rubric: json['rubric'] as String,
   );
@@ -323,7 +314,7 @@ final class MultipleChoiceCheck extends CheckQuestion {
        assert(correctIndex >= 0 && correctIndex < options.length);
 
   @override
-  Map<String, dynamic> toJson() => {
+  Json toJson() => {
     'kind': 'multiple_choice',
     'question': prompt,
     'options': options,
@@ -331,7 +322,7 @@ final class MultipleChoiceCheck extends CheckQuestion {
     if (rubric != null) 'rubric': rubric,
   };
 
-  factory MultipleChoiceCheck.fromJson(Map<String, dynamic> json) {
+  factory MultipleChoiceCheck.fromJson(Json json) {
     final options = (json['options'] as List).map((e) => e as String).toList();
     return MultipleChoiceCheck(
       prompt: json['question'] as String,
@@ -363,13 +354,9 @@ final class CodeCheck extends CheckQuestion {
   const CodeCheck({required this.prompt, required this.rubric});
 
   @override
-  Map<String, dynamic> toJson() => {
-    'kind': 'code',
-    'question': prompt,
-    'rubric': rubric,
-  };
+  Json toJson() => {'kind': 'code', 'question': prompt, 'rubric': rubric};
 
-  factory CodeCheck.fromJson(Map<String, dynamic> json) => CodeCheck(
+  factory CodeCheck.fromJson(Json json) => CodeCheck(
     prompt: json['question'] as String,
     rubric: json['rubric'] as String,
   );
@@ -391,13 +378,9 @@ final class FindBugCheck extends CheckQuestion {
   const FindBugCheck({required this.prompt, required this.rubric});
 
   @override
-  Map<String, dynamic> toJson() => {
-    'kind': 'find_bug',
-    'question': prompt,
-    'rubric': rubric,
-  };
+  Json toJson() => {'kind': 'find_bug', 'question': prompt, 'rubric': rubric};
 
-  factory FindBugCheck.fromJson(Map<String, dynamic> json) => FindBugCheck(
+  factory FindBugCheck.fromJson(Json json) => FindBugCheck(
     prompt: json['question'] as String,
     rubric: json['rubric'] as String,
   );
