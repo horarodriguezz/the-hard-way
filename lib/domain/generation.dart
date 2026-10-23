@@ -28,4 +28,17 @@ final class GenerationMetaData {
       tokensOut: json['tokens_out'] as int,
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is GenerationMetaData &&
+            model == other.model &&
+            promptVersion == other.promptVersion &&
+            tokensIn == other.tokensIn &&
+            tokensOut == other.tokensOut;
+  }
+
+  @override
+  int get hashCode => Object.hash(model, promptVersion, tokensIn, tokensOut);
 }
