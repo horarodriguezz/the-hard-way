@@ -1,5 +1,6 @@
 import 'package:the_hard_way/core/json.dart';
 import 'package:the_hard_way/domain/generation.dart';
+import 'package:the_hard_way/domain/position.dart';
 
 sealed class Node {
   final String id;

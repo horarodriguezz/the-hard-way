@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:the_hard_way/domain/domain.dart';
 
+import '../helpers/json_matchers.dart';
+
 void main() {
   const generation = GenerationMetaData(
     model: 'claude',
@@ -17,6 +19,7 @@ void main() {
         'tokens_in': 120,
         'tokens_out': 480,
       });
+      expect(generation.toJson(), hasSnakeCaseKeys);
     });
 
     test('sobrevive la ida y vuelta por JSON', () {

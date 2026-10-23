@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:the_hard_way/domain/domain.dart';
 
+import '../helpers/json_matchers.dart';
+
 void main() {
   final createdAt = DateTime.utc(2026, 10, 23, 2, 17);
 
@@ -35,6 +37,7 @@ void main() {
         'order': 0,
         'created_at': '2026-10-23T02:17:00.000Z',
       });
+      expect(userNode().toJson(), hasSnakeCaseKeys);
     });
 
     test('sobrevive la ida y vuelta por JSON', () {
@@ -57,6 +60,7 @@ void main() {
 
       expect(json['role'], 'agent');
       expect(json['generation'], generation.toJson());
+      expect(json, hasSnakeCaseKeys);
     });
 
     test('sobrevive la ida y vuelta por JSON', () {

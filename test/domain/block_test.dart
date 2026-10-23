@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:the_hard_way/domain/domain.dart';
 
+import '../helpers/json_matchers.dart';
+
 void main() {
   Block blockWith(BlockData data) => Block(
     id: 'block-1',
@@ -45,6 +47,10 @@ void main() {
         final block = blockWith(data);
 
         expect(Block.fromJson(block.toJson()), block);
+      });
+
+      test('$name serializa con claves snake_case', () {
+        expect(blockWith(data).toJson(), hasSnakeCaseKeys);
       });
     }
 
