@@ -224,16 +224,28 @@ conceptos existentes para que reutilice ids en lugar de crear duplicados.
 
 ### BlockResponse
 
+La respuesta del usuario a un bloque `prediction` o `check`. Se persiste recién
+cuando está terminada: en un `check` corregido por la IA, la respuesta escrita
+vive en el estado de la UI hasta que llega la corrección. Si se cae la conexión
+o se cierra la app antes, se pierde. No hay un estado "pendiente de corregir"
+en el dominio.
+
 ```ts
 type BlockResponse = {
   id: string
   blockId: string
   answer: string
-  grade: 'correct' | 'partial' | 'incorrect' | null  // null en prediction
-  feedback: string | null
   createdAt: Date
-}
+} & (
+  | { kind: 'prediction' }
+  | { kind: 'check'; grade: 'correct' | 'partial' | 'incorrect'; feedback?: string }
+)
 ```
+
+- Una `prediction` no se califica: no tiene `grade` ni `feedback`.
+- Un `check` siempre tiene `grade`. `feedback` falta solo en una opción
+  múltiple cuya pregunta no trae `rubric`; el resto lo trae siempre, porque la
+  IA lo genera junto con la nota.
 
 ### AssessmentAttempt
 
